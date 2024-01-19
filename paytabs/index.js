@@ -40,18 +40,18 @@ app.get("/paytabs", async (req, res) => {
     body: raw,
     redirect: "follow",
   };
+
   let payTabData = await fetch(
     "https://secure.paytabs.sa/payment/request",
     requestOptions
   )
-    .then((response) => response.text())
+    .then((response) => response.json())
     .then((result) => {
       console.log(result);
-      res.send({ message: result });
-      let message=result.redirect_url
-      
-
+      res.send(result.redirect_url);
+      let message = result.redirect_url;
     })
+
     .catch((error) => console.log("error", error));
 });
 
