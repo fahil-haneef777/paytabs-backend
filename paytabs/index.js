@@ -2,7 +2,7 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const app = express();
 const cors = require("cors");
-
+let redirect;
 app.get("/", (req, res) => {
   res.send({ message: "all good" });
 });
@@ -47,12 +47,14 @@ app.get("/paytabs", async (req, res) => {
   )
     .then((response) => response.json())
     .then((result) => {
-      console.log(result);
-      res.send(result.redirect_url);
-      let message = result.redirect_url;
+      redirect = result.redirect_url;
     })
 
     .catch((error) => console.log("error", error));
+
+  if (redirect) {
+    res.redirect(redirect);
+  }
 });
 
 app.listen(3000, () => {
